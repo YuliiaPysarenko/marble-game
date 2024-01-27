@@ -4,7 +4,7 @@ import { defineConfig, transformWithEsbuild } from 'vite'
 export default defineConfig({
     root: 'src/',
     publicDir: '../public/',
-    base: '/marble-game/',
+    base: './',
     plugins:
     [
         // React support
