@@ -1,7 +1,7 @@
 import react from '@vitejs/plugin-react'
-import { transformWithEsbuild } from 'vite'
+import { defineConfig, transformWithEsbuild } from 'vite'
 
-export default {
+export default defineConfig({
     root: 'src/',
     publicDir: '../public/',
     base: '/marble-game/',
@@ -36,4 +36,4 @@ export default {
         emptyOutDir: true, // Empty the folder first
         sourcemap: true // Add sourcemap
     },
-}
+})
