@@ -2,11 +2,10 @@ import { useKeyboardControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useRapier, RigidBody } from "@react-three/rapier";
 import { useState, useEffect, useRef } from "react";
-import * as RAPIER from "@dimforge/rapier3d-compat";
 import * as THREE from "three";
 import useGame from "../stores/useGame";
 
-export default function Player() {
+export default function Player({ modalOpen }) {
   const [subscribeKeys, getKeys] = useKeyboardControls();
   const body = useRef();
   const { rapier, world } = useRapier();
@@ -72,7 +71,10 @@ export default function Player() {
   useFrame((state, delta) => {
     if (body.current) {
       // Controls
-      const { forward, backward, leftward, rightward } = getKeys();
+      const { forward, backward, leftward, rightward, jump } = getKeys();
+      if (modalOpen) {
+        return;
+      }
       const impulse = { x: 0, y: 0, z: 0 };
       const torque = { x: 0, y: 0, z: 0 };
 

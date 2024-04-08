@@ -8,7 +8,7 @@ import {
 } from "../levels";
 import Bounds from "./Bounds";
 
-export function Level({
+export default function Level({
   count = 5,
   types = [BlockSpinner, BlockLimbo, BlockAxe],
   seed = 0,

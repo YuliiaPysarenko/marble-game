@@ -12,7 +12,7 @@ export function BlockEnd({ position = [0, 0, 0] }) {
       <group position={position}>
         <Text
           scale={1}
-          font="./bebas-neue-v9-latin-regular.woff"
+          font="./bebas-neue-regular.ttf"
           position={[0, 2.25, 2]}
         >
           Finish

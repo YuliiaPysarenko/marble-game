@@ -8,14 +8,14 @@ export function BlockStart({ position = [0, 0, 0] }) {
       <Float floatIntensity={0.25} rotationIntensity={0.25}>
         <Text
           scale={0.5}
-          font="./bebas-neue-v9-latin-regular.woff"
+          font="./bebas-neue-regular.ttf"
           maxWidth={0.25}
           lineHeight={0.75}
           textAlign="right"
           position={[0.75, 0.65, 0]}
           rotation-y={-0.25}
         >
-          Marble Race
+          Speed Race
           <meshBasicMaterial toneMapped={false} />
         </Text>
       </Float>
