@@ -11,7 +11,7 @@ body,
 
 @font-face {
     font-family: 'Bebas Neue';
-    src: url('./bebas-neue-regular.ttf');
+    src: url('../bebas-neue-regular.ttf');
 }
 
 @keyframes animate-winner {
@@ -205,13 +205,10 @@ body {
 
 @media (max-width: 1199px) {
     .social {
+        left: 20px;
         top: 10px;
         bottom: auto;
-        max-width: 80px;
-    }
-
-    .social a {
-        width: 30px;
+        max-width: 100px;
     }
 }
 
@@ -234,7 +231,7 @@ body {
     border-radius: 50%;
     border: none;
     background: #ffffff5b;
-    font-family: 'Bebas', sans-serif;
+    font-family: 'Bebas Neue', sans-serif;
     font-size: 22px;
 }
 
