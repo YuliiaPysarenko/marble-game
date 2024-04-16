@@ -52,5 +52,11 @@ export default defineConfig((mode) => {
       emptyOutDir: true, // Empty the folder first
       sourcemap: true, // Add sourcemap
     },
+    headers: [
+      {
+        key: "Cross-Origin-Opener-Policy",
+        value: "same-origin-allow-popups",
+      },
+    ],
   };
 });

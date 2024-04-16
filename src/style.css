@@ -127,10 +127,9 @@ body {
     letter-spacing: 5px;
 }
 
-.login__btn {
+.firebaseui-list-item {
     background: transparent;
     border: none;
-    border-radius: 30px;
     padding: 10px 20px;
     font-family: inherit;
     font-size: 30px;
@@ -138,8 +137,13 @@ body {
     width: 100%;
     max-width: 250px;
     cursor: none;
-    background: #495868;
+    /* background: #495868; */
     color: #fff;
+    transition: transform 0.3s ease;
+}
+
+.firebaseui-list-item button {
+    border-radius: 30px;
 }
 
 .cursor {
@@ -152,7 +156,11 @@ body {
     transition: transform 0.3s ease;
 }
 
-.login__btn:hover ~ .cursor {
+.firebaseui-list-item:hover {
+    transform: scale(1.25);
+}
+
+.firebaseui-list-item:hover ~ .cursor {
   transform: translate(-50%, -50%) scale(8);
 }
 

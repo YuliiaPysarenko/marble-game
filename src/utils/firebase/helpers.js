@@ -1,38 +1,75 @@
-import {
-  signInWithPopup,
-  GoogleAuthProvider,
-  signOut,
-  getAuth,
-} from "firebase/auth";
-import { allRecordsRef } from "./const";
-import { onValue } from "firebase/database";
+import { FIREBASE_CONFIG, allRecordsRef } from "./const";
+import { getDatabase, onValue } from "firebase/database";
 
-export const logIn = (auth, provider) => {
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      // The signed-in user info.
-      const user = result.user;
-      // ...
-    })
-    .catch((error) => {
-      console.log(error);
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
-    });
+import firebase from "firebase/compat/app";
+import * as firebaseui from "firebaseui";
+import "firebaseui/dist/firebaseui.css";
+
+firebase.initializeApp(FIREBASE_CONFIG);
+const db = getDatabase();
+
+export const getUIConfig = (setUser) => {
+  return {
+    callbacks: {
+      signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+        // Do something with the returned AuthResult.
+        // Return type determines whether we continue the redirect
+        // automatically or whether we leave that to developer to handle.
+
+        if (authResult.additionalUserInfo.profile) {
+          const { name, id } = authResult.additionalUserInfo.profile;
+          setUser({ displayName: name, uid: id });
+        }
+        return false;
+      },
+      signInFlow: "popup",
+      signInFailure: function (error) {
+        // Some unrecoverable error occurred during sign-in.
+        // Return a promise when error handling is completed and FirebaseUI
+        // will reset, clearing any UI. This commonly occurs for error code
+        // 'firebaseui/anonymous-upgrade-merge-conflict' when merge conflict
+        // occurs. Check below for more details on this.
+        return handleUIError(error);
+      },
+      // uiShown: function() {
+      //   // The widget is rendered.
+      //   // Hide the loader.
+      //   document.getElementById('loader').style.display = 'none';
+      // }
+    },
+    signInSuccessUrl: "/",
+    signInOptions: [
+      // Leave the lines as is for the providers you want to offer your users.
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+      // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+      // firebase.auth.GithubAuthProvider.PROVIDER_ID,
+      // firebase.auth.EmailAuthProvider.PROVIDER_ID,
+      // firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+      // firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+    ],
+    // tosUrl and privacyPolicyUrl accept either url string or a callback
+    // function.
+    // Terms of service url/callback.
+    // tosUrl: '<your-tos-url>',
+    // Privacy policy url/callback.
+    // privacyPolicyUrl: function() {
+    //   window.location.assign('<your-privacy-policy-url>');
+    // }
+  };
+};
+
+export const initLoginBtns = (setUser) => {
+  var ui =
+    firebaseui.auth.AuthUI.getInstance() ||
+    new firebaseui.auth.AuthUI(firebase.auth());
+  ui.start("#firebaseui-auth-container", getUIConfig(setUser));
 };
 
 export const logOut = () => {
-  const auth = getAuth();
-  signOut(auth)
+  firebase
+    .auth()
+    .signOut()
     .then(() => {
       // Sign-out successful.
     })

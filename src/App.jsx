@@ -19,7 +19,6 @@ export default function App() {
   const app = initializeApp(FIREBASE_CONFIG);
   const analytics = getAnalytics(app);
   const auth = getAuth();
-  const provider = new GoogleAuthProvider();
   const db = getDatabase();
 
   const getRecordValue = (uid) => {
@@ -50,13 +49,7 @@ export default function App() {
     });
 
     return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    if (userAuthData && userAuthData.uid) {
-      getRecordValue(userAuthData.uid);
-    }
-  }, [userAuthData]);
+  }, [user]);
 
   return (
     <>
@@ -67,7 +60,7 @@ export default function App() {
           </UserContext.Provider>
         </DBContext.Provider>
       ) : (
-        <Login auth={auth} provider={provider} />
+        <Login setUser={setUser} />
       )}
     </>
   );

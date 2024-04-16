@@ -1,10 +1,10 @@
-import { logIn } from "../utils/firebase/helpers";
+import { initLoginBtns } from "../utils/firebase/helpers";
 import { useEffect, useRef, useState } from "react";
 import { BallCursor, CanvasScene } from "../components";
+import "firebaseui/dist/firebaseui.css";
 
-export default function Login({ auth, provider }) {
+export default function Login({ setUser }) {
   const cursorRef = useRef();
-  const buttonRef = useRef();
   const [mousePosition, setMousePosition] = useState({ x: null, y: null });
 
   const editCursor = (e) => {
@@ -16,6 +16,8 @@ export default function Login({ auth, provider }) {
   };
 
   useEffect(() => {
+    initLoginBtns(setUser);
+
     const updateMousePosition = (e) => {
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
@@ -61,15 +63,11 @@ export default function Login({ auth, provider }) {
         <div className="login_container">
           <h1>Speed Race</h1>
           <h2>Please, sign in for joining the game:</h2>
-
-          <button
-            className="login__btn"
-            onClick={() => logIn(auth, provider)}
+          <div
+            id="firebaseui-auth-container"
             onMouseEnter={transformCursor}
             onMouseLeave={leaveMouse}
-          >
-            <span ref={buttonRef}>Login</span>
-          </button>
+          ></div>
         </div>
         <div id="cursor" className="cursor" ref={cursorRef}></div>
       </div>
