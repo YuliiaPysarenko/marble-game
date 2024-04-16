@@ -49,13 +49,19 @@ export default function App() {
     });
 
     return () => unsubscribe();
-  }, [user]);
+  }, []);
+
+  useEffect(() => {
+    if (userAuthData && userAuthData.uid) {
+      getRecordValue(userAuthData.uid);
+    }
+  }, [userAuthData]);
 
   return (
     <>
       {user ? (
         <DBContext.Provider value={db}>
-          <UserContext.Provider value={[user, setUser]}>
+          <UserContext.Provider value={user}>
             <Main />
           </UserContext.Provider>
         </DBContext.Provider>

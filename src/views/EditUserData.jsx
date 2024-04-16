@@ -7,12 +7,13 @@ export default function EditUserData({ closeFn = () => null, open = false }) {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const db = useContext(DBContext);
-  const [user, setUser] = useContext(UserContext);
+  const user = useContext(UserContext);
   const recordsRef = ref(db, RECORDS_PATH + user.uid);
 
   const handleInput = (e) => setName(e.target.value);
 
   useEffect(() => {
+    // console.log(user);
     getRecordValue();
   }, [user]);
 
@@ -22,6 +23,7 @@ export default function EditUserData({ closeFn = () => null, open = false }) {
 
   const sendRecordValue = (e) => {
     e.preventDefault();
+    console.log(name);
     set(recordsRef, {
       ...user,
       publicName: name,

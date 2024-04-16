@@ -11,7 +11,7 @@ export default function Interface({ openModal, modalOpen }) {
   const time = useRef();
   const [recordsList, setRecordsList] = useState([]);
 
-  const [user, setUser] = useContext(UserContext);
+  const user = useContext(UserContext);
   const db = useContext(DBContext);
   const restart = useGame((state) => state.restart);
   const phase = useGame((state) => state.phase);
@@ -85,6 +85,7 @@ export default function Interface({ openModal, modalOpen }) {
 
     onValue(recordsRef, (responce) => {
       const data = responce.val();
+      console.log(data);
       if (
         (data && Number(data.record) > Number(value)) ||
         !data && user.uid ||

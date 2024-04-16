@@ -9,7 +9,7 @@ export default function RecordTable({
   textNotification,
 }) {
   const [recordsList, setRecordsList] = useState([]);
-  const [user, setUser] = useContext(UserContext);
+  const user = useContext(UserContext);
 
   useEffect(() => {
     if (open && !recordsList.length) {
