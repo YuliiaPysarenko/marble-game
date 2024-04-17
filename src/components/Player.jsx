@@ -58,7 +58,7 @@ export default function Player({ modalOpen }) {
     );
 
     const unsunsubscribeAny = subscribeKeys(() => {
-      start();
+      start(modalOpen);
     });
 
     return () => {
@@ -66,15 +66,15 @@ export default function Player({ modalOpen }) {
       unsunsubscribeAny();
       unsubscribeJump();
     };
-  }, []);
+  }, [modalOpen]);
 
   useFrame((state, delta) => {
     if (body.current) {
       // Controls
-      const { forward, backward, leftward, rightward, jump } = getKeys();
       if (modalOpen) {
-        return;
+        return
       }
+      const { forward, backward, leftward, rightward, jump } = getKeys();
       const impulse = { x: 0, y: 0, z: 0 };
       const torque = { x: 0, y: 0, z: 0 };
 

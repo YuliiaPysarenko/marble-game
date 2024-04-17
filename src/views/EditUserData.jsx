@@ -13,17 +13,13 @@ export default function EditUserData({ closeFn = () => null, open = false }) {
   const handleInput = (e) => setName(e.target.value);
 
   useEffect(() => {
-    // console.log(user);
-    getRecordValue();
+    if (user) {
+      setName(user.publicName || user.displayName);
+    }
   }, [user]);
-
-  const getRecordValue = () => {
-    setName(user.publicName || user.displayName);
-  };
 
   const sendRecordValue = (e) => {
     e.preventDefault();
-    console.log(name);
     set(recordsRef, {
       ...user,
       publicName: name,

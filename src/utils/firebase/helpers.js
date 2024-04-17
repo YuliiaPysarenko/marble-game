@@ -17,8 +17,8 @@ export const getUIConfig = (setUser) => {
         // automatically or whether we leave that to developer to handle.
 
         if (authResult.additionalUserInfo.profile) {
-          const { name, id } = authResult.additionalUserInfo.profile;
-          setUser({ displayName: name, uid: id });
+          const { displayName, uid } = authResult.user;
+          setUser({ displayName, uid });
         }
         return false;
       },
@@ -87,7 +87,7 @@ export const getAllRecords = (setRecordsList) => {
       const sortedData = Object.values(filteredData).sort(
         (a, b) => Number(a.record) - Number(b.record)
       );
-      setRecordsList(Object.values(sortedData));
+      setRecordsList(Object.values(sortedData).slice(0, 10));
     }
   });
   return records;

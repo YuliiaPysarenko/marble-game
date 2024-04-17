@@ -9,9 +9,9 @@ export default create(
       startTime: 0,
       endTime: 0,
       phase: "ready",
-      start: () => {
+      start: (modalOpen) => {
         set((state) => {
-          if (state.phase === "ready") 
+          if (state.phase === "ready" && modalOpen === false) 
             return { phase: "playing", startTime: Date.now() };
           return {};
         });

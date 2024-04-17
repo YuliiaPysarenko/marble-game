@@ -85,7 +85,6 @@ export default function Interface({ openModal, modalOpen }) {
 
     onValue(recordsRef, (responce) => {
       const data = responce.val();
-      console.log(data);
       if (
         (data && Number(data.record) > Number(value)) ||
         !data && user.uid ||

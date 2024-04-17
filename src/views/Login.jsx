@@ -1,6 +1,6 @@
 import { initLoginBtns } from "../utils/firebase/helpers";
 import { useEffect, useRef, useState } from "react";
-import { BallCursor, CanvasScene } from "../components";
+import { BallCursor, CanvasScene, Social } from "../components";
 import "firebaseui/dist/firebaseui.css";
 
 export default function Login({ setUser }) {
@@ -59,6 +59,7 @@ export default function Login({ setUser }) {
       >
         <BallCursor cursorPosition={mousePosition} />
       </CanvasScene>
+      <Social />
       <div className="login" onMouseMove={editCursor}>
         <div className="login_container">
           <h1>Speed Race</h1>
@@ -68,6 +69,11 @@ export default function Login({ setUser }) {
             onMouseEnter={transformCursor}
             onMouseLeave={leaveMouse}
           ></div>
+          <div className="credits">
+            <p>Developed by <a href="https://www.linkedin.com/in/yuliia-pysarenko/" target="_blank">Yuliia Demianchuk</a>, music by <a href="https://www.linkedin.com/in/demt/" target="_blank">Taras Demianchuk</a></p>
+            <p>Inspired by <a href="https://www.linkedin.com/company/three-js-journey" target="_blank">Three.js Journey</a> ♥</p>
+            <p>Have fun! :)</p>
+          </div>
         </div>
         <div id="cursor" className="cursor" ref={cursorRef}></div>
       </div>
