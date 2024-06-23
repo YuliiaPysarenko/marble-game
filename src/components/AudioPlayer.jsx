@@ -8,7 +8,7 @@ export default function AudioPlayer() {
 
   const [chosenBtn, setChosenBtn] = useState(muteRef);
 
-  const handlePlay = () => {
+  const handlePlay = (e) => {
     if (audioRef.current.paused) {
       audioRef.current.play();
       setChosenBtn(playRef);
@@ -16,6 +16,8 @@ export default function AudioPlayer() {
       audioRef.current.pause();
       setChosenBtn(muteRef);
     }
+    if (e && e.target)
+      document.activeElement.blur();
   };
 
   return (
