@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import audio from "../../public/DemT_-OST_Speed_Race.mp3";
 
-export default function AudioPlayer() {
+export default function MusicPlayer() {
   const audioRef = useRef(null);
   const muteRef = useRef(null);
   const playRef = useRef(null);
@@ -21,7 +21,7 @@ export default function AudioPlayer() {
   };
 
   return (
-    <div className="audioplayer">
+    <div className="musicplayer">
       <audio ref={audioRef} src={audio} type="audio/mpeg" loop />
       <button className="volume" onClick={handlePlay}>
         <svg

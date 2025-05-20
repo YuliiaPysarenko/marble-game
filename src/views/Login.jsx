@@ -1,11 +1,13 @@
 import { initLoginBtns } from "../utils/firebase/helpers";
 import { useEffect, useRef, useState } from "react";
 import { BallCursor, CanvasScene, Social } from "../components";
+import useSoundPlayer from "../hooks/useSoundPlayer";
 import "firebaseui/dist/firebaseui.css";
 
 export default function Login({ setUser }) {
   const cursorRef = useRef();
   const [mousePosition, setMousePosition] = useState({ x: null, y: null });
+  const { play, stop } = useSoundPlayer();
 
   const editCursor = (e) => {
     const { clientX: x, clientY: y } = e;
@@ -33,6 +35,19 @@ export default function Login({ setUser }) {
     return () => {
       window.removeEventListener("mousemove", updateMousePosition);
     };
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const btn = document.querySelector(".firebaseui-idp-google"); // або за id
+      console.log(btn)
+      if (btn) {
+        btn.addEventListener("click", () => play("click"));
+        clearInterval(interval);
+      }
+    }, 300);
+
+    return () => clearInterval(interval);
   }, []);
 
   const transformCursor = (e) => {

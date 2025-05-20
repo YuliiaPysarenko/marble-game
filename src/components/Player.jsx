@@ -4,6 +4,7 @@ import { useRapier, RigidBody } from "@react-three/rapier";
 import { useState, useEffect, useRef } from "react";
 import * as THREE from "three";
 import useGame from "../stores/useGame";
+import useSoundPlayer from "../hooks/useSoundPlayer";
 
 export default function Player({ modalOpen }) {
   const [subscribeKeys, getKeys] = useKeyboardControls();
@@ -14,6 +15,7 @@ export default function Player({ modalOpen }) {
     () => new THREE.Vector3(10, 10, 10)
   );
   const [smoothedCameraTarget] = useState(() => new THREE.Vector3());
+  const { play, playRandom } = useSoundPlayer();
 
   const start = useGame((state) => state.start);
   const restart = useGame((state) => state.restart);
@@ -37,6 +39,17 @@ export default function Player({ modalOpen }) {
     body.current.setLinvel({ x: 0, y: 0, z: 0 });
     body.current.setAngvel({ x: 0, y: 0, z: 0 });
   };
+
+  const collisionEnter = () =>{
+    const velocity = body.current.linvel(); // швидкість об'єкта під час удару
+    const impact = Math.sqrt(
+      velocity.x ** 2 + velocity.y ** 2 + velocity.z ** 2
+    );
+
+    if (impact > 1) {
+      playRandom("hit", 3);
+    }
+  }
 
   useEffect(() => {
     const unsubscribeReset = useGame.subscribe(
@@ -122,7 +135,10 @@ export default function Player({ modalOpen }) {
       state.camera.lookAt(smoothedCameraTarget);
 
       if (bodyPosition.z < -(blocksCount * 4 + 2)) end();
-      if (bodyPosition.y < -4) restart();
+      if (bodyPosition.y < -4) {
+        play("restart");
+        restart();
+      }
     }
   });
 
@@ -131,6 +147,7 @@ export default function Player({ modalOpen }) {
       ref={body}
       canSleep={false}
       colliders="ball"
+      onCollisionEnter={ collisionEnter }
       restitution={0.2}
       friction={1}
       position={[0, 1, 0]}

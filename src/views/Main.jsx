@@ -13,6 +13,7 @@ import useGame from "../stores/useGame.js";
 import { KeyboardControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useState } from "react";
+import useSoundPlayer from "../hooks/useSoundPlayer.js";
 
 export default function Main() {
   const [textNotification, setTextNotification] = useState(null);
@@ -20,14 +21,17 @@ export default function Main() {
   
   const blocksCount = useGame((state) => state.blocksCount);
   const blocksSeed = useGame((state) => state.blocksSeed);
+  const { play, stop } = useSoundPlayer();
 
-  const openModal = (id, notification) => {
+  const openModal = (id, notification, sound) => {
     if (id) setModal(id);
     if (notification) setTextNotification(notification);
+    if (sound) play(sound);
   };
 
-  const closeModal = () => {
+  const closeModal = (sound) => {
     setModal(false);
+    if (sound) stop(sound);
   };
 
   const getKeys = () => {

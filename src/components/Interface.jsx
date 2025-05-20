@@ -6,6 +6,7 @@ import { Joystick } from "react-joystick-component";
 import { onValue, ref, set } from "firebase/database";
 import { DBContext, UserContext, RECORDS_PATH, allRecordsRef } from "../utils/firebase/const";
 import { getAllRecords } from "../utils/firebase/helpers";
+import useSoundPlayer from "../hooks/useSoundPlayer";
 
 export default function Interface({ openModal, modalOpen }) {
   const time = useRef();
@@ -23,6 +24,7 @@ export default function Interface({ openModal, modalOpen }) {
   const jump = useKeyboardControls((state) => state.jump);
 
   let state = useGame.getState();
+  const { play, stop } = useSoundPlayer();
 
   const keysOnMobile = {
     FORWARD: "KeyW",
@@ -62,6 +64,7 @@ export default function Interface({ openModal, modalOpen }) {
       getAllRecords(setRecordsList);
     }
     if (state.phase === "ended") {
+      play("finish", { volume: 0.4 });
       const value = ((state.endTime - state.startTime) / 1000).toFixed(2);
       sendRecordValue(value);
     }
@@ -70,11 +73,11 @@ export default function Interface({ openModal, modalOpen }) {
   function checkUsersWinners(uid) {
     const userIndex = recordsList.findIndex((user) => user.uid === uid);
     if (userIndex === 0) {
-      openModal("recordTable", "Wow! You're the winner!", uid);
+      openModal("recordTable", "Wow! You're the winner!", "record");
     } else if (userIndex < 10) {
-      openModal("recordTable", "Wow! You're on TOP-10 list!", uid);
+      openModal("recordTable", "Wow! You're on TOP-10 list!", "record");
     } else {
-      openModal("notification", `Congrats! You have a new own record!`);
+      openModal("notification", `Congrats! You have a new own record!`, "record");
     }
   }
 
@@ -122,7 +125,14 @@ export default function Interface({ openModal, modalOpen }) {
           0.00
         </div>
         {phase === "ended" && (
-          <div className="restart" onClick={modalOpen ? null : restart}>
+          <div
+            className="restart"
+            onClick={() => {
+              play("click");
+              play("restart");
+              modalOpen ? null : restart();
+            }}
+          >
             restart
           </div>
         )}

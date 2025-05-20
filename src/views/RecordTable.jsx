@@ -52,7 +52,7 @@ export default function RecordTable({
               : null}
           </tbody>
         </table>
-        <button type="button" className="close-modal" onClick={closeFn}>
+        <button type="button" className="close-modal" onClick={() => closeFn("record")}>
           <svg id="icon-clear" viewBox="0 0 24 24">
             <path d="M18.984 6.422l-5.578 5.578 5.578 5.578-1.406 1.406-5.578-5.578-5.578 5.578-1.406-1.406 5.578-5.578-5.578-5.578 1.406-1.406 5.578 5.578 5.578-5.578z"></path>
           </svg>
